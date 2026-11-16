@@ -1,0 +1,313 @@
+@import 'tailwindcss';
+@import 'leaflet/dist/leaflet.css';
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .printable-poster, .printable-poster * {
+    visibility: visible;
+  }
+  .printable-poster {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+}
+
+
+:root {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #0f172a;
+  background: #f8f7f3;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 5% 0%, rgba(52, 211, 153, 0.07), transparent 33%),
+    #f7f9f5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.65rem 1.1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.btn-primary {
+  border: 1px solid #047857;
+  background: #047857;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  border-color: #065f46;
+  background: #065f46;
+}
+
+.btn-secondary {
+  border: 1px solid #dbe3dc;
+  background: #fff;
+  color: #334155;
+}
+
+.btn-secondary:hover {
+  border-color: #a7d6b7;
+  color: #065f46;
+}
+
+.form-input {
+  width: 100%;
+  border: 1px solid #dce4dd;
+  border-radius: 0.9rem;
+  background: #f9fbf9;
+  padding: 0.8rem 0.9rem;
+  color: #1e293b;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.form-input:focus {
+  border-color: #34a873;
+  box-shadow: 0 0 0 3px rgba(52, 168, 115, 0.12);
+}
+
+.form-input::placeholder {
+  color: #94a3b8;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #059669;
+  outline-offset: 3px;
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply border border-white/60 bg-white/70 backdrop-blur-sm;
+  }
+}
+
+.hero-scan-line {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 34%;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(110, 231, 183, 0.1) 88%, rgba(110, 231, 183, 0.6));
+  border-bottom: 1px solid rgba(167, 243, 208, 0.7);
+  filter: drop-shadow(0 3px 12px rgba(52, 211, 153, 0.55));
+  animation: hero-scan 8s ease-in-out infinite;
+}
+
+.image-scan-overlay {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: rgba(3, 25, 18, 0.18);
+}
+
+.image-scan-bar {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 32%;
+  background: linear-gradient(180deg, transparent, rgba(52, 211, 153, 0.15) 86%, rgba(110, 231, 183, 0.8));
+  border-bottom: 1px solid rgba(167, 243, 208, 0.9);
+  box-shadow: 0 0 24px rgba(52, 211, 153, 0.4);
+  animation: active-scan 1.8s ease-in-out infinite alternate;
+}
+
+.leaflet-map {
+  z-index: 0;
+  background: #e8eee8;
+}
+
+.leaflet-container {
+  font: inherit;
+}
+
+.leaflet-popup-link {
+  display: inline-block;
+  margin-top: 0.4rem;
+  color: #047857;
+  font-weight: 700;
+}
+
+.leaflet-popup-content p {
+  margin: 0.35rem 0 0;
+}
+
+.identity-card {
+  transform-style: preserve-3d;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .identity-card:hover {
+    transform: perspective(1400px) rotateX(0.35deg) rotateY(-0.35deg) translateY(-2px);
+    box-shadow: 0 36px 100px rgba(13, 54, 38, 0.17);
+  }
+}
+
+@keyframes hero-scan {
+  0%, 8% { transform: translateY(0); }
+  92%, 100% { transform: translateY(205%); }
+}
+
+@keyframes active-scan {
+  from { transform: translateY(0); }
+  to { transform: translateY(205%); }
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  background: #071713;
+  color: #e4f2eb;
+}
+
+[data-theme='dark'] body,
+[data-theme='dark'] #root > div {
+  background-color: #071713 !important;
+  color: #e4f2eb;
+}
+
+[data-theme='dark'] .bg-white,
+[data-theme='dark'] .bg-white\/90,
+[data-theme='dark'] .bg-white\/80 {
+  background-color: #10211c !important;
+}
+
+[data-theme='dark'] .bg-slate-50,
+[data-theme='dark'] .bg-slate-100,
+[data-theme='dark'] .bg-\[\#fbfcfa\] {
+  background-color: #142720 !important;
+}
+
+[data-theme='dark'] .text-slate-950,
+[data-theme='dark'] .text-slate-900,
+[data-theme='dark'] .text-slate-800,
+[data-theme='dark'] .text-slate-700 {
+  color: #e4f2eb !important;
+}
+
+[data-theme='dark'] .text-slate-600,
+[data-theme='dark'] .text-slate-500 {
+  color: #b1c6bc !important;
+}
+
+[data-theme='dark'] .text-slate-400 {
+  color: #8da49a !important;
+}
+
+[data-theme='dark'] .text-emerald-950,
+[data-theme='dark'] .text-emerald-900,
+[data-theme='dark'] .text-emerald-800 {
+  color: #b9f4d0 !important;
+}
+
+[data-theme='dark'] .border-slate-200,
+[data-theme='dark'] .border-slate-100,
+[data-theme='dark'] .border-emerald-100 {
+  border-color: #294239 !important;
+}
+
+[data-theme='dark'] .bg-emerald-50,
+[data-theme='dark'] .bg-emerald-50\/60 {
+  background-color: #15362a !important;
+}
+
+[data-theme='dark'] .bg-rose-50 {
+  background-color: #3a2022 !important;
+}
+
+[data-theme='dark'] .bg-amber-50 {
+  background-color: #382f1a !important;
+}
+
+[data-theme='dark'] .bg-violet-50 {
+  background-color: #2b2040 !important;
+}
+
+[data-theme='dark'] .border-amber-200,
+[data-theme='dark'] .border-violet-100 {
+  border-color: #5a4b2b !important;
+}
+
+[data-theme='dark'] .form-input,
+[data-theme='dark'] .btn-secondary {
+  background-color: #142720 !important;
+  border-color: #355247 !important;
+  color: #e4f2eb !important;
+}
+
+[data-theme='dark'] .form-input::placeholder {
+  color: #8da49a;
+}
+
+[data-theme='dark'] .leaflet-popup-content-wrapper,
+[data-theme='dark'] .leaflet-popup-tip {
+  background: #10211c;
+  color: #e4f2eb;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
